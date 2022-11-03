@@ -1,21 +1,24 @@
+from ast import If
 from space_comm import receiver
 from spacecraft import spacecraft
-import time,sys
+import time, sys
 from threading import Thread, Lock
+import datetime
+import hashlib
+import hmac
 
 
-class spacecraft_inst():
+class spacecraft_inst:
+    def __init__(self, id, lock):
 
-    def __init__(self,id,lock):
-
-        task = open("task","r").readline().rstrip("\n")
-        if task == '1.3' or task == '1.4':
+        task = open("task", "r").readline().rstrip("\n")
+        if task == "1.3" or task == "1.4":
             comm_failure = True
         else:
             comm_failure = False
 
-        self.s =  spacecraft(id)
-        self.r = receiver("spacecraft_"+str(id),comm_failure)
+        self.s = spacecraft(id)
+        self.r = receiver("spacecraft_" + str(id), comm_failure)
         self.lock = lock
 
     def launch(self):
@@ -27,6 +30,51 @@ class spacecraft_inst():
             self.s.process_msg(msg)
             self.lock.release()
 
-    #handle incoming messages
-    def handle_msg(self,msg):
+    # handle incoming messages
+    def handle_msg(self, msg):
+
+        key = "secret"
+        mac = hmac.new(
+            bytes(key, "utf-8"), bytes(str(msg[:4]), "utf-8"), hashlib.sha256
+        )
+        caclulated_sig = mac.hexdigest()
+        signature = (msg[4:]).decode("utf-8")
+        valid = hmac.compare_digest(signature, caclulated_sig)
+
+        if msg[0] == 1:
+            if valid:
+                if msg[1] == self.s.id:
+                    timestamp = str(datetime.datetime.now())
+                    direction = str(msg[2])
+                    distance = str(msg[3])
+                    file = open(str(self.s.id) + ".txt", "a")
+                    file.write(
+                        "Time: "
+                        + timestamp
+                        + " Direction: "
+                        + direction
+                        + " Distance: "
+                        + distance
+                        + "\n"
+                    )
+                    file.close()
+                    f = open("commands.txt", "a")
+                    f.write("The command I got " + str(msg) + str(len(msg)) + "\n")
+                    f.close()
+            else:
+                f = open("invalid.txt", "a")
+                f.write(
+                    "The signature I got: "
+                    + signature
+                    + "\n"
+                    + "Message: "
+                    + str(msg[:4])
+                    + "\n"
+                    + "Calculated signature: "
+                    + caclulated_sig
+                    + "\n"
+                )
+                f.close()
+                return
+
         return msg
