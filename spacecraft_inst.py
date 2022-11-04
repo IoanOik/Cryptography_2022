@@ -6,6 +6,7 @@ from threading import Thread, Lock
 import datetime
 import hashlib
 import hmac
+from space_comm import transmitter
 
 
 class spacecraft_inst:
@@ -41,8 +42,8 @@ class spacecraft_inst:
         signature = (msg[4:]).decode("utf-8")
         valid = hmac.compare_digest(signature, caclulated_sig)
 
-        if msg[0] == 1:
-            if valid:
+        if valid:
+            if msg[0] == 1:
                 if msg[1] == self.s.id:
                     timestamp = str(datetime.datetime.now())
                     direction = str(msg[2])
@@ -61,20 +62,6 @@ class spacecraft_inst:
                     f = open("commands.txt", "a")
                     f.write("The command I got " + str(msg) + str(len(msg)) + "\n")
                     f.close()
-            else:
-                f = open("invalid.txt", "a")
-                f.write(
-                    "The signature I got: "
-                    + signature
-                    + "\n"
-                    + "Message: "
-                    + str(msg[:4])
-                    + "\n"
-                    + "Calculated signature: "
-                    + caclulated_sig
-                    + "\n"
-                )
-                f.close()
-                return
-
+        else:
+            print("the message must be rejected!")
         return msg
