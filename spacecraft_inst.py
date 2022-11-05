@@ -41,10 +41,18 @@ class spacecraft_inst:
         caclulated_sig = mac.hexdigest()
         signature = (msg[4:]).decode("utf-8")
         valid = hmac.compare_digest(signature, caclulated_sig)
+        t = transmitter("spacecraft")  # init transmitter
+        ack_message = [
+            self.s.id,
+            0,
+        ]  # init the acknowledgement message as an accepted one
 
         if valid:
             if msg[0] == 1:
                 if msg[1] == self.s.id:
+                    t.transmit(
+                        bytes(ack_message)
+                    )  # transmit that the msg has been accepted by the spacecraft
                     timestamp = str(datetime.datetime.now())
                     direction = str(msg[2])
                     distance = str(msg[3])
@@ -63,5 +71,10 @@ class spacecraft_inst:
                     f.write("The command I got " + str(msg) + str(len(msg)) + "\n")
                     f.close()
         else:
-            print("the message must be rejected!")
+            # the message must be rejected!
+            ack_message[1] = 1
+            t.transmit(
+                bytes(ack_message)
+            )  # transmit that the msg has NOT been accepted by the spacecraft
+
         return msg
