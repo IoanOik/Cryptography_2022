@@ -19,7 +19,7 @@ class bs_receiver(receiver):
             )
         else:
             print(
-                "Message has NOT been accepted from the spacecraft with id -> "
+                "Message has  been rejected from the spacecraft with id -> "
                 + str(msg[0])
             )
         return msg
