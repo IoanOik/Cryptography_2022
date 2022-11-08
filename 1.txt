@@ -1,4 +1,2 @@
-Time: 2022-11-08 12:26:24.550640 Direction: 1 Distance: 3
-Time: 2022-11-08 12:26:43.111282 Direction: 2 Distance: 3
-Time: 2022-11-08 12:26:58.538103 Direction: 4 Distance: 6
-Time: 2022-11-08 12:48:58.422586 Direction: 1 Distance: 3
+Time: 2022-11-08 15:56:32.240497 Direction: 1 Distance: 1
+Time: 2022-11-08 15:58:47.474842 Direction: 1 Distance: 1
