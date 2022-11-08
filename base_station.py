@@ -20,7 +20,7 @@ def prepare_msg(msg_type, id, dir, dis):
     mac = hmac.new(bytes(key, "utf-8"), bytes(str(msg), "utf-8"), hashlib.sha256)
     sig = mac.hexdigest()
     file = open("station.txt", "a")
-    file.write("Signature made: " + sig + "\n")
+    file.write("\n"+"Signature made: " + sig )
     file.write(str(msg + bytes(sig, "utf-8")))
     file.close()
     return msg + bytes(sig, "utf-8")

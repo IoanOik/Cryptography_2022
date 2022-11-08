@@ -1,0 +1,9 @@
+The signature I got: 528baa46990f736e33f51fd98e021eff975bd917b4e1ce5f09f0f509852380e1
+Message: b'\x01\x01\x03\x03'
+Calculated signature: 3475380adf26946e7ae1b2f93525f710e866d7b2acc5acd25696f4fd55c439bd
+The signature I got: 528baa46990f736e33f51fd98e021eff975bd917b4e1ce5f09f0f509852380e1
+Message: b'\x01\x01\x02\x01'
+Calculated signature: 9bb9091681bc4584d1519b1e56408b3df0ec82e253729f0e6040279511975887
+The signature I got: 528baa46990f736e33f51fd98e021eff975bd917b4e1ce5f09f0f509852380e1
+Message: b'\x01\x01\x03\x03'
+Calculated signature: 3475380adf26946e7ae1b2f93525f710e866d7b2acc5acd25696f4fd55c439bd
