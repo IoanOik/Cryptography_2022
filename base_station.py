@@ -1,6 +1,8 @@
 from space_comm import transmitter
 import hashlib
 import hmac
+import os
+import subprocess
 
 t = transmitter("base station")
 
@@ -21,7 +23,7 @@ def prepare_msg(msg_type, id, dir, dis):
     sig = mac.hexdigest()
     file = open("station.txt", "a")
     file.write("Signature made: " + sig + "\n")
-    file.write(str(msg + bytes(sig, "utf-8")))
+    file.write(str(msg + bytes(sig, "utf-8")) + "\n")
     file.close()
     return msg + bytes(sig, "utf-8")
     # return bytes(str([msg_type, id, dir, dis, sig]), 'utf-8')
@@ -29,3 +31,8 @@ def prepare_msg(msg_type, id, dir, dis):
 
 b = prepare_msg(msg_type, id, dir, dis)
 t.transmit(b)
+# subprocess.call("./listen_ack.py " + str(id), shell=True)
+# args = ["listen_ack.py", str(id)]
+# os.execvp("/home/giannis/Documents/cryptography/eclass/Project_01/crypto2022/listen_ack.py", args)
+# sys.argv = [str(id)]
+exec(open("./listen_ack.py").read())

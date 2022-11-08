@@ -41,40 +41,51 @@ class spacecraft_inst:
         caclulated_sig = mac.hexdigest()
         signature = (msg[4:]).decode("utf-8")
         valid = hmac.compare_digest(signature, caclulated_sig)
-        t = transmitter("spacecraft")  # init transmitter
         ack_message = [
             self.s.id,
             0,
         ]  # init the acknowledgement message as an accepted one
-
-        if valid:
-            if msg[0] == 1:
-                if msg[1] == self.s.id:
-                    t.transmit(
-                        bytes(ack_message)
-                    )  # transmit that the msg has been accepted by the spacecraft
-                    timestamp = str(datetime.datetime.now())
-                    direction = str(msg[2])
-                    distance = str(msg[3])
-                    file = open(str(self.s.id) + ".txt", "a")
-                    file.write(
-                        "Time: "
-                        + timestamp
-                        + " Direction: "
-                        + direction
-                        + " Distance: "
-                        + distance
-                        + "\n"
-                    )
-                    file.close()
-                    f = open("commands.txt", "a")
-                    f.write("The command I got " + str(msg) + str(len(msg)) + "\n")
-                    f.close()
-        else:
-            # the message must be rejected!
-            ack_message[1] = 1
-            t.transmit(
-                bytes(ack_message)
-            )  # transmit that the msg has NOT been accepted by the spacecraft
-
+        if len(msg) == 68:
+            if valid:
+                if msg[0] == 1:
+                    if msg[1] == self.s.id:
+                        self.s.t.transmit(
+                            bytes(ack_message)
+                        )  # transmit that the msg has been accepted by the spacecraft
+                        timestamp = str(datetime.datetime.now())
+                        direction = str(msg[2])
+                        distance = str(msg[3])
+                        file = open(str(self.s.id) + ".txt", "a")
+                        file.write(
+                            "Time: "
+                            + timestamp
+                            + " Direction: "
+                            + direction
+                            + " Distance: "
+                            + distance
+                            + "\n"
+                        )
+                        file.close()
+                        f = open("commands.txt", "a")
+                        f.write("The command I got " + str(msg) + str(len(msg)) + "\n")
+                        f.close()
+            else:
+                # the message must be rejected!
+                ack_message[1] = 1
+                self.s.t.transmit(
+                    bytes(ack_message)
+                )  # transmit that the msg has NOT been accepted by the spacecrafts
+            message_file = open("Transmitted.txt", "a")
+            message_file.write(
+                "Id "
+                + str(self.s.id)
+                + " Message sent: "
+                + str(ack_message)
+                + " Is Valid: "
+                + str(valid)
+                + " Is for me: "
+                + str(self.s.id == msg[1])
+                + "\n"
+            )
+            message_file.close()
         return msg

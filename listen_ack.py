@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 from space_comm import receiver
 import time
 
@@ -24,7 +25,11 @@ class bs_receiver(receiver):
             )
         return msg
 
-
+spacecraft_id = input("Give id of the targeted spacecraft: ")
 base_station_rcvr = bs_receiver("base_station", False)
-spacecraft_msg = base_station_rcvr.listen_single_msg()
+while True:
+    spacecraft_msg = base_station_rcvr.listen_single_msg()
+    if len(spacecraft_msg) == 2 and spacecraft_msg[0] == int(spacecraft_id):
+        break
 spacecraft_msg = base_station_rcvr.scan_msg(spacecraft_msg)
+print("The message I got -> " + str(spacecraft_msg))
