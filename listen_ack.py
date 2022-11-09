@@ -31,5 +31,5 @@ def on_message(clent, userdata, message):
 base_station_rcvr = bs_receiver("base_station")
 base_station_rcvr.client.loop_start()
 base_station_rcvr.client.on_message = on_message
-time.sleep(20)
+time.sleep(5)
 base_station_rcvr.client.loop_stop()
