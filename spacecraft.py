@@ -39,7 +39,13 @@ class spacecraft:
                 self.log("message for me")
                 direction = int(b[2])
                 distance = int(b[3])
-                if direction < 1 or direction > 4 or distance < 0 or distance > 10:
+                if (
+                    direction < 1
+                    or direction > 4
+                    or distance < 0
+                    or distance > 10
+                    or b[len(b) - 1] == 0
+                ):
                     self.log("Message rejected")
                 else:
                     self.move_spacecraft(direction, distance)
@@ -47,6 +53,9 @@ class spacecraft:
                 self.log("message not for me")
         else:
             self.log("not a command message")
+        # file = open("messages.txt", "a")
+        # file.write("Message modified from handler: " + str(b) + str(len(b)) + "\n")
+        # file.close()
 
     def get_position(self):
         return self.pos_x, self.pos_y

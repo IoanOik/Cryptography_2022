@@ -15,9 +15,7 @@ class bs_receiver:
 
 
 def scan_msg(msg):
-
     id = msg[0]
-
     if msg[1] == 0:
         print("Message has been accepted from the spacecraft with id -> " + str(id))
     else:
@@ -29,7 +27,6 @@ def on_message(clent, userdata, message):
     received_messages.append(message)
 
 
-# spacecraft_id = int(input("Give id of the targeted spacecraft: "))
 base_station_rcvr = bs_receiver("base_station")
 base_station_rcvr.client.on_message = on_message
 base_station_rcvr.client.loop_start()

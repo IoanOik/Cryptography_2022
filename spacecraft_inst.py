@@ -47,6 +47,7 @@ class spacecraft_inst:
         ]  # init the acknowledgement message as an accepted one
         if len(msg) == 68:
             if valid:
+                msg = msg + bytes([1])
                 if msg[0] == 1:
                     if msg[1] == self.s.id:
                         self.s.t.transmit_to_ack_topic(
@@ -71,6 +72,7 @@ class spacecraft_inst:
                         f.close()
             else:
                 # the message must be rejected!
+                msg = msg + bytes([0])
                 ack_message[1] = 1
                 self.s.t.transmit_to_ack_topic(
                     bytes(ack_message)

@@ -20,7 +20,7 @@ class transmitter:
 
     def transmit(self, message):
         self.client.publish(self.topic, message)
-    
+
     def transmit_to_ack_topic(self, message):
         self.client.publish("ack_messages", message)
 
