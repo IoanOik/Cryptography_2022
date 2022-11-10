@@ -23,6 +23,7 @@ def scan_msg(msg):
 
 
 def on_message(clent, userdata, message):
+    print("On message executing...")
     print("Received: " + str(message.payload))
     received_messages.append(message)
 
@@ -34,3 +35,5 @@ time.sleep(3)
 base_station_rcvr.client.loop_stop()
 for msg in received_messages:
     scan_msg(msg.payload)
+base_station_rcvr.client.disconnect()
+print(str(received_messages))

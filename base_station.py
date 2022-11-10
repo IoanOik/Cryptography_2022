@@ -36,3 +36,5 @@ t.transmit(b)
 # os.execvp("/home/giannis/Documents/cryptography/eclass/Project_01/crypto2022/listen_ack.py", args)
 # sys.argv = [str(id)]
 exec(open("./listen_ack.py").read())
+
+#exec(open("cd /home/project ; /usr/bin/env /bin/python3 /root/.vscode-server/extensions/ms-python.python-2022.4.1/pythonFiles/lib/python/debugpy/launcher 45741 -- /home/project/Cryptography_2022/base_station.py ").read())

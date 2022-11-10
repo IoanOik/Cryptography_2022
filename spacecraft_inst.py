@@ -50,7 +50,7 @@ class spacecraft_inst:
                 msg = msg + bytes([1])
                 if msg[0] == 1:
                     if msg[1] == self.s.id:
-                        self.s.t.transmit_to_ack_topic(
+                        info = self.s.t.transmit_to_ack_topic(
                             bytes(ack_message)
                         )  # transmit that the msg has been accepted by the spacecraft
                         timestamp = str(datetime.datetime.now())
@@ -74,7 +74,7 @@ class spacecraft_inst:
                 # the message must be rejected!
                 msg = msg + bytes([0])
                 ack_message[1] = 1
-                self.s.t.transmit_to_ack_topic(
+                info = self.s.t.transmit_to_ack_topic(
                     bytes(ack_message)
                 )  # transmit that the msg has NOT been accepted by the spacecrafts
             message_file = open("Transmitted.txt", "a")
@@ -87,6 +87,8 @@ class spacecraft_inst:
                 + str(valid)
                 + " Is for me: "
                 + str(self.s.id == msg[1])
+                + "Is published: "
+                + str(info.is_published())
                 + "\n"
             )
             message_file.close()

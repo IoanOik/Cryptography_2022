@@ -22,7 +22,8 @@ class transmitter:
         self.client.publish(self.topic, message)
 
     def transmit_to_ack_topic(self, message):
-        self.client.publish("ack_messages", message)
+        info = self.client.publish("ack_messages", message)
+        return info
 
 
 class receiver:
