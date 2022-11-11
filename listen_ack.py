@@ -44,5 +44,3 @@ base_station_rcvr.client.loop_stop()
 base_station_rcvr.client.disconnect()
 for msg in received_messages:
     scan_msg(msg.payload)
-base_station_rcvr.client.disconnect()
-print(str(received_messages))
