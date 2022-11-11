@@ -10,8 +10,16 @@ class bs_receiver:
         self.broker_address = "127.0.0.1"
         self.topic = "ack_messages"
         self.client = mqtt.Client(client_name)
+        self.client.on_connect = on_connect
         self.client.connect(self.broker_address)
         self.client.subscribe(self.topic)
+
+
+def on_connect(client, userdata, flags, rc):
+    print("Connection succesfull" if rc == 0 else "Connection failed")
+    print(
+        "Connection status: " + str(rc)
+    )  # we happy when that is 0, else we must visit the documentation to recognize the error code
 
 
 def scan_msg(msg):
@@ -33,6 +41,7 @@ base_station_rcvr.client.on_message = on_message
 base_station_rcvr.client.loop_start()
 time.sleep(3)
 base_station_rcvr.client.loop_stop()
+base_station_rcvr.client.disconnect()
 for msg in received_messages:
     scan_msg(msg.payload)
 base_station_rcvr.client.disconnect()
