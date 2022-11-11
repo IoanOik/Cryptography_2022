@@ -4,7 +4,6 @@ import time
 
 received_messages = []
 
-
 class bs_receiver:
     def __init__(self, client_name):
         self.broker_address = "127.0.0.1"
