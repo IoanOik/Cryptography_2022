@@ -25,6 +25,7 @@ class transmitter:
        return self.client.publish("ack_messages", message)
 
 
+
 class receiver:
     def __init__(self, _client_name, com_failure=False):
         self.broker_address = "127.0.0.1"
