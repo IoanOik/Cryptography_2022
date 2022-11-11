@@ -33,7 +33,7 @@ class spacecraft_inst:
 
     # handle incoming messages
     def handle_msg(self, msg):
-
+        is_published = False
         key = "secret"
         mac = hmac.new(
             bytes(key, "utf-8"), bytes(str(msg[:4]), "utf-8"), hashlib.sha256
@@ -50,9 +50,10 @@ class spacecraft_inst:
                 msg = msg + bytes([1])
                 if msg[0] == 1:
                     if msg[1] == self.s.id:
-                        self.s.t.transmit_to_ack_topic(
+                        info = self.s.t.transmit_to_ack_topic(
                             bytes(ack_message)
                         )  # transmit that the msg has been accepted by the spacecraft
+                        is_published = info.is_published()
                         timestamp = str(datetime.datetime.now())
                         direction = str(msg[2])
                         distance = str(msg[3])
@@ -74,9 +75,10 @@ class spacecraft_inst:
                 # the message must be rejected!
                 msg = msg + bytes([0])
                 ack_message[1] = 1
-                self.s.t.transmit_to_ack_topic(
+                info = self.s.t.transmit_to_ack_topic(
                     bytes(ack_message)
                 )  # transmit that the msg has NOT been accepted by the spacecrafts
+                is_published = info.is_published()
             message_file = open("Transmitted.txt", "a")
             message_file.write(
                 "Id "
@@ -87,6 +89,8 @@ class spacecraft_inst:
                 + str(valid)
                 + " Is for me: "
                 + str(self.s.id == msg[1])
+                + " Published: "
+                + str(is_published)
                 + "\n"
             )
             message_file.close()
