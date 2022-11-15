@@ -16,15 +16,8 @@ msg_type = 1  # command
 pos_x = 10
 pos_y = 10
 
-#assuming that the msg is corrupted,man in the middle attack
-def mitma(msg):
-    size=256
-    key="alien!"
-    letters = string.ascii_letters()
-    msg = ''.join(random.choice(letters) for i in range(size))
-    print("corrupted msg=" + str(msg))
-    return msg
-  
+#just deleted here my old freq fail func ,giorgos 
+
 
 ## handle outgoing message
 def prepare_msg(msg_type, id, dir, dis):
@@ -39,8 +32,6 @@ def prepare_msg(msg_type, id, dir, dis):
     if(rand>freq*10):
        corrupt=1
 
-    if (corrupt==1):       
-        mitma(msg+bytes(sig,"utf-8")) 
     
     print("rand=" +str(rand)+" freq= "+ str(10*freq) +" ||| corrupt= "+ str(corrupt))
     
