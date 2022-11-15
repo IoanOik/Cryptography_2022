@@ -1,0 +1,2 @@
+Time: 2022-11-08 12:27:11.540961 Direction: 1 Distance: 3
+Time: 2022-11-08 17:51:57.900078 Direction: 1 Distance: 2
